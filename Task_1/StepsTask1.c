@@ -44,11 +44,14 @@ void tokeniseRecord(const char *input, const char *delimiter,
 // Complete the main function
 int main() {
 
+    // Defining Temporary Variables
     char Date[11] ;
     char Time[6] ;
     char Steps[100] ;
-    int counter = 0 ;
+    int num_of_records = 0 ;
+    int i ;
 
+    // Creating Strruct and Opening the file for READ
     FITNESS_DATA fitnessData[1000]; 
     char fileName[] = "FitnessData_2023.csv";
 
@@ -58,23 +61,24 @@ int main() {
         return 1 ;
     };
 
+
+    // Reading data from File and Storing it in a Struct
     int bufferSize = 100 ;
     char LineBuffer[bufferSize] ;
 
     while (fgets(LineBuffer, bufferSize, file) != NULL) {
         tokeniseRecord(LineBuffer,",", Date, Time, Steps) ;
-        strcpy(fitnessData[counter].date, Date);
-        strcpy(fitnessData[counter].time, Time);
-        fitnessData[counter].steps = atoi(Steps) ;
+        strcpy(fitnessData[num_of_records].date, Date);
+        strcpy(fitnessData[num_of_records].time, Time);
+        fitnessData[num_of_records].steps = atoi(Steps) ;
 
-
-        if (counter < 3) {
-            printf("%s/%s/%d\n",fitnessData[counter].date,fitnessData[counter].time,fitnessData[counter].steps);
-        }
-
-        counter ++ ;   
+        num_of_records++ ;   
     }
 
-    printf("%d\n",counter);
+    // Writing Appropriate Information to the Screen
+    printf("Number of records in file: %d\n",num_of_records);
+    for (i=0 ; i<3 ; i++) {
+        printf("%s/%s/%d\n",fitnessData[i].date, fitnessData[i].time, fitnessData[i].steps);
+    }
 
 }
