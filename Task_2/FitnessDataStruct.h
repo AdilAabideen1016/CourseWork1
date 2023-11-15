@@ -93,6 +93,7 @@ FILE *open_file( char fileName[], char mode[])
 void total_records(FILE *file, FITNESS_DATA* dataArray)
 {
     
+    // Loops through the file and adds each record to the struct
     int num_of_records = 0 ;
     while (fgets(LineBuffer, buffer_size, file) != NULL) {
         tokeniseRecord(LineBuffer, ",", Date, Time, Steps);
@@ -102,7 +103,107 @@ void total_records(FILE *file, FITNESS_DATA* dataArray)
 
         num_of_records++ ;
     }
+
+    // Prints the total number of records
     printf("Total records: %d\n", num_of_records);
 }
+
+void fewest_steps(FILE *file, FITNESS_DATA* dataArray)
+{
+    int num_of_records = 0 ;
+    int Lowest_steps = 10000;
+    int count ;
+    while (fgets(LineBuffer, buffer_size, file) != NULL) {
+        tokeniseRecord(LineBuffer, ",", Date, Time, Steps);
+        strcpy(dataArray[num_of_records].date, Date);
+        strcpy(dataArray[num_of_records].time, Time);
+        dataArray[num_of_records].steps = atoi(Steps) ;
+        if (dataArray[num_of_records].steps < Lowest_steps) {
+            Lowest_steps = dataArray[num_of_records].steps;
+            count = num_of_records;
+        }
+        num_of_records++ ;
+
+    }
+    printf("Fewest steps: %s %s\n", dataArray[count].date, dataArray[count].time) ;
+
+}
+
+void Largest_steps(FILE *file, FITNESS_DATA* dataArray)
+{
+    int num_of_records = 0 ;
+    int Lowest_steps = 0;
+    int count ;
+    while (fgets(LineBuffer, buffer_size, file) != NULL) {
+        tokeniseRecord(LineBuffer, ",", Date, Time, Steps);
+        strcpy(dataArray[num_of_records].date, Date);
+        strcpy(dataArray[num_of_records].time, Time);
+        dataArray[num_of_records].steps = atoi(Steps) ;
+        if (dataArray[num_of_records].steps > Lowest_steps) {
+            Lowest_steps = dataArray[num_of_records].steps;
+            count = num_of_records;
+        }
+        num_of_records++ ;
+
+    }
+    printf("Largest steps: %s %s\n", dataArray[count].date, dataArray[count].time) ;
+
+}
+
+void mean_steps(FILE *file, FITNESS_DATA* dataArray)
+{
+    int num_of_records = 0 ;
+    int total_steps = 0 ;
+    float mean_steps ;
+    while (fgets(LineBuffer, buffer_size, file) != NULL) {
+        tokeniseRecord(LineBuffer, ",", Date, Time, Steps);
+        strcpy(dataArray[num_of_records].date, Date);
+        strcpy(dataArray[num_of_records].time, Time);
+        dataArray[num_of_records].steps = atoi(Steps) ;
+        total_steps = total_steps + dataArray[num_of_records].steps ;
+        num_of_records++ ;
+
+    } 
+    mean_steps =  (total_steps / num_of_records ) ;
+    printf("Mean step count: %.0f\n", mean_steps);
+
+}
+
+void longest_period(FILE *file, FITNESS_DATA* dataArray)
+{
+    int num_of_records = 0 ;
+    int max_count = 0 ;
+    int count = 0 ;
+    int i ;
+    int start ;
+    int max_start, max_end ; 
+    while (fgets(LineBuffer, buffer_size, file) != NULL) {
+        tokeniseRecord(LineBuffer, ",", Date, Time, Steps);
+        strcpy(dataArray[num_of_records].date, Date);
+        strcpy(dataArray[num_of_records].time, Time);
+        dataArray[num_of_records].steps = atoi(Steps) ;
+
+        
+    } 
+
+    for ( i = 0 ; i < num_of_records ; i++) {
+        if ( dataArray[i].steps > 500 )
+        {
+            start = i - count ;
+            count = count + 1 ;
+        } else {
+            if (count > max_count) {
+                max_count = count ;
+                max_start = start;
+                max_end = i;
+                count = 0 ;
+            }
+            
+        }
+    }
+    printf("Longest period start: %s %s\n", dataArray[max_start].date, dataArray[max_start].time);
+    printf("Longest period start: %s %s\n", dataArray[max_end].date, dataArray[max_end].time);
+}
+
 
 #endif // FITNESS_DATA_STRUCT_H

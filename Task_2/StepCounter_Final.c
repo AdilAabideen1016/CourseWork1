@@ -26,12 +26,7 @@ int main() {
 
     // Creating Struct and Opening the file for READ
     FITNESS_DATA fitnessData[1000]; 
-    char fileName[256] ;
-
-    
-
-
-    // Reading data from File and Storing it in a Struct
+    char fileName[256] = "FitnessData_2023.csv";
     
  
 
@@ -68,22 +63,29 @@ int main() {
                 break ;
             case 'C':
             case 'c':
-                return 0;
+                file = open_file(fileName, "r");
+                fewest_steps(file, fitnessData);
+                fclose(file);
                 break;
-
             case 'D':
             case 'd':
-                return 0 ;
+                file = open_file(fileName, "r");
+                Largest_steps(file, fitnessData);
+                fclose(file);
                 break ;
 
             case 'E':
             case 'e':
-                return 0;
+                file = open_file(fileName, "r");
+                mean_steps(file, fitnessData);
+                fclose(file);
                 break;
 
             case 'F':
             case 'f':
-                return 0;
+                file = open_file(fileName, "r");
+                longest_period(file, fitnessData);
+                fclose(file);
                 break;
 
             case 'G':
