@@ -3,17 +3,10 @@
 #include <string.h>
 #include "FitnessDataStruct.h"
 
-// Define an appropriate struct
-
-
-// Define any additional variables here
-
-
 
 // Complete the main function
 int main() {
 
-    
 
     // Defining Temporary Variables 
     char Date[11] ;
@@ -24,12 +17,12 @@ int main() {
     int i ;
     FILE * file ;
 
-    // Creating Struct and Opening the file for READ
+    // Creating Struct and Stating the Filename
     FITNESS_DATA fitnessData[1000]; 
     char fileName[256] = "FitnessData_2023.csv";
     
  
-
+    // Printing the Menu System 
     while (1) {
 
         printf("Menu Options :\n") ;
@@ -41,34 +34,52 @@ int main() {
         printf("F: Find the longest countinues period where the step count is above 500 steps\n");             
         printf("Q: Quit\n");
 
+
+        // Getting Choice
+        fflush(stdin);
         choice = getchar() ;
 
         while (getchar() != '\n') ;
 
+        // Switch to Allow the Choices in Menu Systems
         switch (choice) 
         {
             case 'A' :
             case 'a':
+                
+                // Requesting User Input of FileName and Opening File
                 printf("Input filename : ");
                 scanf("%s", fileName);
+
+                // Flushes the Input Buffer allowing for getchar() to work
+                while ((choice = getchar()) != '\n' && choice != EOF);
                 file = open_file(fileName, "r");
                 fclose(file);
                 break ;
             
             case 'B' :
             case 'b' :
+
+                // Passing Filename and array to Void Function to get Total Records
                 file = open_file(fileName, "r");
                 total_records(file, fitnessData);
                 fclose(file) ;
+
                 break ;
             case 'C':
             case 'c':
+
+                // Passing FileName and Array to Void Function to Get Fewest Steps
                 file = open_file(fileName, "r");
                 fewest_steps(file, fitnessData);
                 fclose(file);
+
+        
                 break;
             case 'D':
             case 'd':
+
+                // Passing FileName and Array to Void Function to Get Largest Steps
                 file = open_file(fileName, "r");
                 Largest_steps(file, fitnessData);
                 fclose(file);
@@ -76,6 +87,8 @@ int main() {
 
             case 'E':
             case 'e':
+
+                // Passing FileName and Array to Void Function to Get Mean Steps
                 file = open_file(fileName, "r");
                 mean_steps(file, fitnessData);
                 fclose(file);
@@ -83,14 +96,11 @@ int main() {
 
             case 'F':
             case 'f':
+
+                // Passing FileName and Array to Void Function to Get The Longest period where steps > 500
                 file = open_file(fileName, "r");
                 longest_period(file, fitnessData);
                 fclose(file);
-                break;
-
-            case 'G':
-            case 'g':
-                return 0;
                 break;
 
             case 'Q':
