@@ -29,8 +29,7 @@ typedef struct {
 
 
 /**
- * @brief Adapted version of the tokeniseRecord function which you should now be familiar with - this one is adapted for this data file
- *        as it has fewer outputs and gives you the bloodIron as a float
+ * @brief Adapted version of the tokeniseRecord function which you should now be familiar with 
  *
  * @param input the line of the file to be split
  * @param delimiter what character it should split on
@@ -70,9 +69,10 @@ void tokeniseRecord(const char *input, const char *delimiter, char *date, char *
  *
  * @param filename the name of the file to open
  * @param mode the mode (r/w/a/r+/w+/a+)
+ * @param first_time if its the first time opening it will print File Succesfully Loaded
  * @return FILE* The file object to store the opened file in.
  */
-FILE *open_file( char fileName[], char mode[])
+FILE *open_file( char fileName[], char mode[], int first_time)
 {
     // Opening the File using the Filename and Mode
     FILE * file = fopen(fileName, mode);
@@ -82,7 +82,9 @@ FILE *open_file( char fileName[], char mode[])
         printf("Error: Could not find or open the file.\n");
         exit(1);
     } else {
-        printf("File Succesfully Loaded.\n");
+        if ( first_time == 1) {
+            printf("File Succesfully Loaded.\n");
+        }
     };
 
     // Returning the File
@@ -212,7 +214,8 @@ void mean_steps(FILE *file, FITNESS_DATA* dataArray)
 
     // Divide Total steps with amount of records of Steps and Print Answer
     mean_steps =  (total_steps / num_of_records ) ;
-    printf("Mean step count: %.0f\n", mean_steps);
+    printf("Mean step count: %.0f\n",mean_steps);
+    
 
 }
 
@@ -268,8 +271,8 @@ void longest_period(FILE *file, FITNESS_DATA* dataArray)
     }
 
     // Print Answer
-    printf("Longest period start: %s %s\n", dataArray[max_start].date, dataArray[max_start].time);
-    printf("Longest period End: %s %s\n", dataArray[max_end].date, dataArray[max_end].time);
+    printf("Longest period start: %s %s \nLongest period end: %s %s \n", dataArray[max_start].date, dataArray[max_start].time, dataArray[max_end].date, dataArray[max_end].time);
+    
 }
 
 

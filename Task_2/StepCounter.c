@@ -21,6 +21,7 @@ int main() {
     FITNESS_DATA fitnessData[1000]; 
     char fileName[256] = "FitnessData_2023.csv";
     
+    
  
     // Printing the Menu System 
     while (1) {
@@ -53,24 +54,24 @@ int main() {
 
                 // Flushes the Input Buffer allowing for getchar() to work
                 while ((choice = getchar()) != '\n' && choice != EOF);
-                file = open_file(fileName, "r");
-                fclose(file);
+                file = open_file(fileName, "r", 1);
+                
                 break ;
             
             case 'B' :
             case 'b' :
 
                 // Passing Filename and array to Void Function to get Total Records
-                file = open_file(fileName, "r");
+                file = open_file(fileName, "r",0);
                 total_records(file, fitnessData);
-                fclose(file) ;
+                fclose(file);
 
                 break ;
             case 'C':
             case 'c':
 
                 // Passing FileName and Array to Void Function to Get Fewest Steps
-                file = open_file(fileName, "r");
+                file = open_file(fileName, "r",0);
                 fewest_steps(file, fitnessData);
                 fclose(file);
 
@@ -80,7 +81,7 @@ int main() {
             case 'd':
 
                 // Passing FileName and Array to Void Function to Get Largest Steps
-                file = open_file(fileName, "r");
+                file = open_file(fileName, "r",0);
                 Largest_steps(file, fitnessData);
                 fclose(file);
                 break ;
@@ -89,7 +90,7 @@ int main() {
             case 'e':
 
                 // Passing FileName and Array to Void Function to Get Mean Steps
-                file = open_file(fileName, "r");
+                file = open_file(fileName, "r",0);
                 mean_steps(file, fitnessData);
                 fclose(file);
                 break;
@@ -98,7 +99,7 @@ int main() {
             case 'f':
 
                 // Passing FileName and Array to Void Function to Get The Longest period where steps > 500
-                file = open_file(fileName, "r");
+                file = open_file(fileName, "r",0);
                 longest_period(file, fitnessData);
                 fclose(file);
                 break;
