@@ -196,8 +196,8 @@ void mean_steps(FILE *file, FITNESS_DATA* dataArray)
 {
     // Define Temporary Variables
     int num_of_records = 0 ;
-    int total_steps = 0 ;
-    float mean_steps ;
+    float total_steps = 0 ;
+    float mean_steps = 0 ;
 
     // Loops through the file and adds each record to the Array of type Struct
     while (fgets(LineBuffer, buffer_size, file) != NULL) {
@@ -233,9 +233,14 @@ void longest_period(FILE *file, FITNESS_DATA* dataArray)
     int max_count = 0 ;
     int count = 0 ;
     int i ;
-    int start ;
-    int max_start, max_end ; 
+    int start_index, end_index ; 
 
+    char longest_period_start_date[300];
+    char longest_period_start_time[300];
+    char longest_period_end_date[300];
+    char longest_period_end_time[300];
+    
+    char 
     // Loop through the file and adds each record to the Array of type Struct
     while (fgets(LineBuffer, buffer_size, file) != NULL) {
         tokeniseRecord(LineBuffer, ",", Date, Time, Steps);
@@ -252,26 +257,33 @@ void longest_period(FILE *file, FITNESS_DATA* dataArray)
     // Loop through the Array of type the Struct 
     for ( i = 0 ; i < num_of_records ; i++) {
 
-        // If the Steps is > 500 then Remember the Start Index
+        // If the Steps is > 500 then increment the count
         if ( dataArray[i].steps > 500 )
         {
-            start = i - count ;
-            count = count + 1 ;
+            count = count + 1 ; 
         } else {
 
             // Else if the Steps have gone < 500 then Save the Variables if the Longest Period
             if (count > max_count) {
-                max_count = count ;
-                max_start = start;
-                max_end = i - 1;
-                count = 0 ;
+
+                // Set the Maximum count and end index
+                end_index = i - 1 ; 
+                max_count = count ; 
+                strcpy(longest_period_start_date ,dataArray[start_index].date);
+                strcpy(longest_period_end_date, dataArray[end_index].date);
+                strcpy(longest_period_start_time, dataArray[start_index].time);
+                strcpy(longest_period_end_time, dataArray[end_index].time);
             }
+            
+            // Incremenet Start Index and reset count so they can start finding longest period
+            count  = 0 ;
+            start_index = i + 1 ;
             
         }
     }
 
     // Print Answer
-    printf("Longest period start: %s %s \nLongest period end: %s %s \n", dataArray[max_start].date, dataArray[max_start].time, dataArray[max_end].date, dataArray[max_end].time);
+    printf("Longest period start: %s %s \nLongest period end: %s %s \n", longest_period_start_date, longest_period_start_time, longest_period_end_date, longest_period_end_time);
     
 }
 
